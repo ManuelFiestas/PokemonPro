@@ -78,7 +78,7 @@ export class UsuarioService {
 
   }
 
-  cargarUsuarios( desde: number = 0, mostrar: number = 5 ) {
+  cargarUsuarios( desde: number = 0, mostrar: number = 10 ) {
 
     const url = URL_SERVICIOS + '/api/users?pageSize=' + mostrar + '&page=' + desde;
 
@@ -89,6 +89,25 @@ export class UsuarioService {
       });
 
     return this.http.get( url, { headers} );
+
+  }
+
+  crearUsuario( name: string, password: string ) {
+
+
+
+    const url = URL_SERVICIOS + '/api/users';
+
+    const usuario = new Usuario(null, name, password, null);
+
+    const headers = new HttpHeaders(
+      {
+        'Authorization': `Bearer ${this.token}`,
+        'Content-Type': 'application/json'
+      });
+
+    return this.http.post( url, usuario, { headers} );
+
 
   }
 

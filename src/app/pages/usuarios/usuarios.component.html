@@ -1,73 +1,73 @@
 <div class="row animated fadeIn">
     <div class="col-12">
-      <div class="card">
-        <div class="card-body">
-  
-           <input #input type="text" class="form-control" placeholder="Buscar usuario...">
-  
-        </div>
-      </div>
-    </div>
-  </div> 
-  
-  <div class="row animated fadeIn" *ngIf="cargando">
-    <div class="col-sm-12">
-      <div class="alert alert-warning text-center">
-        <strong>Cargando</strong>
-        <br>
-        <i class="fa fa-refresh fa-spin fa-2x"></i>
-        <br>
-        <span>Espere por favor..</span>
-      </div>
-    </div>
-  </div>
-  
-  <div class="row animated fadeIn" *ngIf="!cargando">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-body">
-        <div class="text-right">
-            <button (click)="alertCrearUsuario()" class="btn btn-primary rounded text-right"><i class="fa fa-plus"></i> Crear Usuario</button>
-        </div>
+        <div class="card">
+            <div class="card-body">
 
-        <h3 class="card-title">Usuarios registrados (<small>{{ totalRegistros }}</small>)</h3>
-  
-        <table class="table table-hover table-sm">
-          <thead class="thead-inverse">
-            <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Roles</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let usuario of usuarios">
-              <td>{{ usuario.id }}</td>
-              <td>{{ usuario.name }}</td>
-              <td>{{ usuario.password }}</td>
-              <td>
-                <button class="btn btn-primary">
+                <input #input type="text" class="form-control" placeholder="Buscar usuario...">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn" *ngIf="cargando">
+    <div class="col-sm-12">
+        <div class="alert alert-warning text-center">
+            <strong>Cargando</strong>
+            <br>
+            <i class="fa fa-refresh fa-spin fa-2x"></i>
+            <br>
+            <span>Espere por favor..</span>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn" *ngIf="!cargando">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="text-right">
+                    <button (click)="alertCrearUsuario()" class="btn btn-primary rounded text-right"><i class="fa fa-plus"></i> Crear Usuario</button>
+                </div>
+
+                <h3 class="card-title">Usuarios registrados (<small>{{ totalRegistros }}</small>)</h3>
+
+                <table class="table table-hover table-sm">
+                    <thead class="thead-inverse">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Permisos</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let usuario of usuarios">
+                            <td>{{ usuario.id }}</td>
+                            <td>{{ usuario.name }}</td>
+                            <td>
+                                <li *ngFor="let claim of usuario.claims">{{ claim.type | json }}</li>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary">
                   <i class="fa fa-save"></i>
-                </button>
-                &nbsp;
-                <button class="btn btn-danger">
+                </button> &nbsp;
+                                <button class="btn btn-danger">
                   <i class="fa fa-trash-o"></i>
                 </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-  
-        <button (click)="cambiarDesde(-5)" class="btn btn-secondary">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <button (click)="cambiarDesde(-10)" class="btn btn-secondary">
             Anteriores
-          </button>
-          &nbsp;
-          <button (click)="cambiarDesde(5)" class="btn btn-secondary">
+          </button> &nbsp;
+                <button (click)="cambiarDesde(10)" class="btn btn-secondary">
             Siguientes
           </button>
-  
+
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>

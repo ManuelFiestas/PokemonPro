@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../../models/usuario.model';
 import { UsuarioService } from 'src/app/services/service.index';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-usuarios',
@@ -11,7 +12,7 @@ export class UsuariosComponent implements OnInit {
 
   usuarios: Usuario[] = [];
   desde: number = 0;
-  mostrar: number = 5;
+  mostrar: number = 10;
 
   totalRegistros: number = 0;
   cargando: boolean = true;
@@ -38,7 +39,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   cambiarDesde( valor: number ) {
-    let desde = this.desde + valor;
+    const desde = this.desde + valor;
     console.log(desde);
 
     if ( desde < 0 ) {
@@ -49,7 +50,40 @@ export class UsuariosComponent implements OnInit {
   }
 
 
-  alertCrearUsuario() {
+  async alertCrearUsuario() {
+
+    const {value: formValues} = await Swal.fire({
+      title: 'Registro de Usuario',
+      html:
+        '<input id="swal-input1" class="swal2-input" placeholder="Nombre de Usuario">' +
+        '<input id="swal-input2" class="swal2-input" placeholder="Contraseña">',
+      focusConfirm: false,
+      preConfirm: () => {
+        return [
+          document.getElementById('swal-input1').value,
+          document.getElementById('swal-input2').value
+        ];
+      }
+    });
+
+    if (formValues) {
+
+      if (formValues[0] === '' || formValues[1] === '') {
+        console.log('Campos vacíos');
+        Swal.fire({
+          type: 'error',
+          title: 'Upsss...',
+          text: 'Los campos son obligatorios'
+        });
+        return;
+      }
+
+      this._usuarioService.crearUsuario(formValues[0], formValues[1])
+      .subscribe( resp => {
+                    console.log(resp);
+                    this.cargarUsuarios();
+                });
+    }
 
   }
 

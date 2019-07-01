@@ -39,7 +39,19 @@ export class LoginComponent implements OnInit {
 
     this._usuarioService.login( usuario, forma.value.recuerdame )
                   .subscribe(
-                    correcto => this.router.navigate(['/dashboard']),
+                    correcto => {
+                      const toast = Swal.mixin({
+                        toast: true,
+                        position: 'bottom-end',
+                        showConfirmButton: false,
+                        timer: 1500
+                      });
+                      toast.fire({
+                        type: 'success',
+                        title: 'Login Correcto :)'
+                      });
+                      this.router.navigate(['/dashboard']);
+                  },
                     err => {
                       console.log('Error Capturado', err.error.response);
                       Swal.fire({

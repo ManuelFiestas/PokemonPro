@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Usuario } from '../../models/usuario.model';
 import { UsuarioService } from 'src/app/services/service.index';
 import Swal from 'sweetalert2';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-usuarios',
@@ -19,7 +20,8 @@ export class UsuariosComponent implements OnInit {
 
 
 
-  constructor( public _usuarioService: UsuarioService ) { }
+  constructor( public _usuarioService: UsuarioService,
+               @Inject(DOCUMENT) private document: Document ) { }
 
   ngOnInit() {
     this.cargarUsuarios();
@@ -66,6 +68,7 @@ export class UsuariosComponent implements OnInit {
       }
     });
 
+
     if (formValues) {
 
       if (formValues[0] === '' || formValues[1] === '') {
@@ -82,7 +85,15 @@ export class UsuariosComponent implements OnInit {
       .subscribe( resp => {
                     console.log(resp);
                     this.cargarUsuarios();
-                });
+                },
+                  err => {
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Upsss...',
+                      text: 'El usuario ' + formValues[0] + ' ya existe!!!'
+                    });
+                  }
+                );
     }
 
   }

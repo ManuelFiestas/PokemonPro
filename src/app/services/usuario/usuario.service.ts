@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Usuario } from '../../models/usuario.model';
-import { URL_SERVICIOS, CRYPTJS_PRIVATKEY } from '../../config/config';
+import { URL_SERVICIOS } from '../../config/config';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import * as CryptoJS from 'crypto-js';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +12,6 @@ export class UsuarioService {
 
   usuario: Usuario;
   token: string;
-  password: string;
 
   constructor( public http: HttpClient,
                public router: Router ) {
@@ -64,13 +62,8 @@ export class UsuarioService {
 
     if ( recordar ) {
       localStorage.setItem('username', usuario.name);
-      // Encrypt Password
-      const ciphertext = CryptoJS.AES.encrypt(usuario.password, CRYPTJS_PRIVATKEY);
-      // End Encrypt Password
-      localStorage.setItem('ciphertext', ciphertext.toString());
     } else {
       localStorage.removeItem('username');
-      localStorage.removeItem('ciphertext');
     }
 
     const url = URL_SERVICIOS + '/api/users/login';
